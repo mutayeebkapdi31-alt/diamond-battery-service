@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin | {{ shop.name }}</title><link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}"></head><body>
+<aside class="side"><h1>{{ shop.name }}<small>Admin panel</small></h1><div class="links">
+<a href="/admin" class="{{ 'on' if request.path=='/admin/' or request.path=='/admin' }}">Dashboard</a>
+<a href="/admin/bookings" class="{{ 'on' if 'bookings' in request.path }}">Bookings</a><div class="h">Website content</div>
+{% for k,d in ent.items() %}<a href="/admin/c/{{ k }}" class="{{ 'on' if ('/c/'+k) in request.path }}">{{ d.title }}</a>{% endfor %}<div class="h">Shop</div>
+<a href="/admin/settings" class="{{ 'on' if 'settings' in request.path }}">Shop settings</a><a href="/admin/password" class="{{ 'on' if 'password' in request.path }}">Login &amp; password</a><hr>
+<a href="/" target="_blank">View website</a>
+<form method="post" action="/admin/logout"><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="lk">Log out</button></form></div></aside>
+<main class="main">{% for m in get_flashed_messages() %}<div class="flash">{{ m }}</div>{% endfor %}{% block body %}{% endblock %}</main>
+<script>document.querySelectorAll('form[data-confirm]').forEach(f=>f.addEventListener('submit',e=>{if(!confirm(f.dataset.confirm))e.preventDefault()}));
+document.querySelectorAll('input[type=file]').forEach(i=>i.addEventListener('change',()=>{const p=i.parentNode.querySelector('img');if(i.files[0]&&p)p.src=URL.createObjectURL(i.files[0])}));</script></body></html>

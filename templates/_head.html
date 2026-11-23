@@ -1,0 +1,22 @@
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-bat" viewBox="0 0 24 24"><path d="M3 8h18v12H3zM6 5h3v3H6zM15 5h3v3h-3zM7 14h4M15 12v4M13 14h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-inv" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM13 7l-4 6h4l-2 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3M7 12h3l1-3 2 6 1-3h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+<symbol id="i-ecm" viewBox="0 0 24 24"><path d="M7 7h10v10H7zM10 10h4v4h-4zM9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="i-arm" viewBox="0 0 24 24"><path d="M3 12h18M6 7h3v10H6zM11 6h3v12h-3zM16 7h3v10h-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-start" viewBox="0 0 24 24"><path d="M2 12h4M6 8h10v8H6zM16 10h3v4h-3zM19 12h3M10 8V5h3v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-alt" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13 6l-4 6h5l-3 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-ac" viewBox="0 0 24 24"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M9 4l3 2 3-2M9 20l3-2 3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-gas" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 01-12 0c0-4.500 6-11 6-11zM9.500 14.500a2.500 2.500 0 002.500 2.500" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM8.5 12l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+<symbol id="i-wrench" viewBox="0 0 24 24"><path d="M15 4a5 5 0 00-4 7L4 18l2 2 7-7a5 5 0 007-4l-3 3-3-1-1-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div class="progress" id="prog"></div>
+<div class="topbar"><div class="wrap"><span>{{ shop.address }}</span><span><a href="tel:+{{ shop.phone }}">{{ shop.phone_display }}</a> &nbsp;|&nbsp; <a href="tel:+{{ shop.phone2 }}">{{ shop.phone2_display }}</a></span></div></div>
+<header class="nav" id="nav"><div class="wrap navin">
+<a class="logo" href="{{ r }}#top">DIAMOND<small>Battery Service</small></a>
+<button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><i></i><i></i><i></i></button>
+<nav id="menu" aria-label="Main"><a href="{{ r }}#services">Services</a><a href="/batteries">Batteries</a><a href="{{ r }}#warranty">Warranty</a><a href="{{ r }}#signs">Car Tips</a><a href="{{ r }}#faq">FAQ</a><a href="{{ r }}#book">Book</a><a href="{{ r }}#visit">Contact</a>
+<a class="btn sm" href="tel:+{{ shop.phone }}">Call now</a></nav></div></header>

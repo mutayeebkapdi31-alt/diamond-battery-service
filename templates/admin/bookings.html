@@ -1,0 +1,7 @@
+{% extends "admin/base.html" %}{% block body %}<h2>Booking requests</h2><p class="sub">Requests sent from the website form.</p>
+<div class="bar"><form method="get"><input type="search" name="q" value="{{ q }}" placeholder="Search name, phone, service..."><select class="sm" name="status"><option value="">All statuses</option>{% for s in statuses %}<option {{ 'selected' if s==st }}>{{ s }}</option>{% endfor %}</select><button class="btn">Filter</button></form><a class="btn g" href="/admin/bookings.csv">Download CSV</a></div>
+<div class="wrap"><table><tr><th>Date</th><th>Name</th><th>Phone</th><th>Service</th><th>Vehicle</th><th>Message</th><th>Status</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r.created }}</td><td>{{ r.name }}</td><td><a href="tel:{{ r.phone }}">{{ r.phone }}</a></td><td>{{ r.service }}</td><td>{{ r.vehicle }}</td><td>{{ r.message }}</td>
+<td><form method="post" action="/admin/bookings/{{ r.id }}/status" class="inline"><input type="hidden" name="_csrf" value="{{ csrf() }}"><select class="sm" name="status" onchange="this.form.submit()">{% for s in statuses %}<option {{ 'selected' if s==r.status }}>{{ s }}</option>{% endfor %}</select></form></td>
+<td><form method="post" action="/admin/bookings/{{ r.id }}/delete" class="inline" data-confirm="Delete this booking?"><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="btn d">Delete</button></form></td></tr>
+{% else %}<tr><td colspan="8">No bookings found.</td></tr>{% endfor %}</table></div>{% endblock %}

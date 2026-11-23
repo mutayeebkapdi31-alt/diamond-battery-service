@@ -1,0 +1,7 @@
+{% extends "admin/base.html" %}{% block body %}<h2>{{ d.title }}</h2><p class="sub">Add, edit, hide, reorder or delete. Changes appear on the website immediately.</p>
+<p><a class="btn" href="/admin/c/{{ e }}/new">+ Add {{ d.one }}</a></p>
+<div class="wrap"><table><tr>{% for h in heads %}<th>{{ h }}</th>{% endfor %}<th>Order</th><th></th></tr>
+{% for r in rows %}<tr>{% for k,v in r.cells %}<td>{% if k=='img' %}{% if v %}<img class="thumb" src="/uploads/{{ v }}" alt="">{% else %}<span class="none">no photo</span>{% endif %}{% elif v=='Visible' or v=='Hidden' %}<span class="badge {{ v }}">{{ v }}</span>{% else %}{{ v or '-' }}{% endif %}</td>{% endfor %}
+<td style="white-space:nowrap">{% for dd,sym in [(0,'&uarr;'),(1,'&darr;')] %}<form method="post" action="/admin/c/{{ e }}/{{ r.id }}/move/{{ dd }}" class="inline"><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="btn d" aria-label="move">{{ sym|safe }}</button></form> {% endfor %}</td>
+<td style="white-space:nowrap"><a class="btn s" href="/admin/c/{{ e }}/{{ r.id }}">Edit</a> <form method="post" action="/admin/c/{{ e }}/{{ r.id }}/delete" class="inline" data-confirm="Delete this {{ d.one }}? This cannot be undone."><input type="hidden" name="_csrf" value="{{ csrf() }}"><button class="btn d">Delete</button></form></td></tr>
+{% else %}<tr><td colspan="{{ heads|length + 2 }}">Nothing here yet. Click "Add {{ d.one }}".</td></tr>{% endfor %}</table></div>{% endblock %}

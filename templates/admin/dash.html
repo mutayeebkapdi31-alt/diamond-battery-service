@@ -1,0 +1,8 @@
+{% extends "admin/base.html" %}{% block body %}<h2>Dashboard</h2><p class="sub">Welcome. Everything on the website is managed from here.</p>
+{% if s.defpw %}<div class="warn"><b>Change your password.</b> You are still using the default password. <a href="/admin/password">Change it now</a>.</div>{% endif %}
+<div class="cards"><div class="card"><b>{{ s.new }}</b>New booking requests</div><div class="card"><b>{{ s.total }}</b>Total bookings</div><div class="card"><b>{{ s.products }}</b>Batteries on website</div><div class="card"><b>{{ s.gallery }}</b>Gallery photos</div></div>
+{% if s.nophoto or s.noname %}<div class="warn"><b>To finish:</b> {{ s.noname }} battery cards have no model name and {{ s.nophoto }} have no photo. <a href="/admin/c/products">Open Batteries</a>. When done, switch off placeholders in <a href="/admin/settings">Shop settings</a>.</div>{% endif %}
+<div class="panel"><b>Latest bookings</b><div class="wrap" style="margin-top:10px"><table><tr><th>Date</th><th>Name</th><th>Phone</th><th>Service</th><th>Status</th></tr>
+{% for r in recent %}<tr><td>{{ r.created }}</td><td>{{ r.name }}</td><td><a href="tel:{{ r.phone }}">{{ r.phone }}</a></td><td>{{ r.service }}</td><td><span class="badge {{ r.status }}">{{ r.status }}</span></td></tr>{% else %}<tr><td colspan="5">No bookings yet.</td></tr>{% endfor %}</table></div>
+<p><a class="btn" href="/admin/bookings">All bookings</a></p></div>
+<div class="panel"><b>Quick actions</b><p><a class="btn" href="/admin/c/products/new">+ Add battery</a> <a class="btn g" href="/admin/c/gallery/new">+ Add gallery photo</a> <a class="btn g" href="/admin/c/reviews/new">+ Add review</a> <a class="btn g" href="/admin/settings">Edit phone / address</a></p></div>{% endblock %}

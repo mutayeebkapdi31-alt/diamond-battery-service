@@ -1,0 +1,1 @@
+{% macro ph(v, t, cls='') %}{% if v %}{{ v }}{% elif shop.show_ph == '1' %}<span class="ph {{ cls }}">{{ t }}</span>{% endif %}{% endmacro %}

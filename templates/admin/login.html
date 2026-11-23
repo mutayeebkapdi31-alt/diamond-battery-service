@@ -1,0 +1,4 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin login</title><link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}"></head>
+<body><form class="login" method="post"><h1>{{ shop.name }}</h1><p class="sub">Admin login</p>{% if err %}<div class="warn">{{ err }}</div>{% endif %}
+<input type="hidden" name="_csrf" value="{{ csrf() }}"><div class="fld"><label class="t">Username</label><input name="u" autocomplete="username" autofocus required></div>
+<div class="fld"><label class="t">Password</label><input type="password" name="p" autocomplete="current-password" required></div><button class="btn" style="width:100%">Log in</button></form></body></html>

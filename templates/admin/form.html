@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}{% block body %}<h2>{{ title }}</h2><p class="sub">{% if back %}<a href="{{ back }}">&larr; Back to list</a>{% else %}These details appear across the whole website.{% endif %}</p>
+<form class="panel" method="post" action="{{ action }}" enctype="multipart/form-data"><input type="hidden" name="_csrf" value="{{ csrf() }}">
+{% for f in fields %}{% set v = vals.get(f.n, '') %}<div class="fld">
+{% if f.k=='check' %}<label class="chk"><input type="checkbox" name="{{ f.n }}" value="1" {{ 'checked' if v in (1,'1',True) }}> {{ f.l }}</label>
+{% else %}<label class="t">{{ f.l }}{% if f.req %} *{% endif %}</label>
+{% if f.k=='area' %}<textarea name="{{ f.n }}" rows="4">{{ v }}</textarea>
+{% elif f.k=='number' %}<input type="number" name="{{ f.n }}" value="{{ v }}">
+{% elif f.k in ('select','icon') %}<select name="{{ f.n }}">{% for val,lab in opts(f) %}<option value="{{ val }}" {{ 'selected' if val==(v|string) }}>{{ lab }}</option>{% endfor %}</select>
+{% elif f.k=='multi' %}<div class="multi">{% for val,lab in opts(f) %}<label><input type="checkbox" name="{{ f.n }}" value="{{ val }}" {{ 'checked' if val in (v|string).split(',') }}> {{ lab }}</label>{% endfor %}</div>
+{% elif f.k=='image' %}<div class="imgbox"><img src="{{ '/uploads/'~v if v else 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' }}" alt=""><div><input type="file" name="{{ f.n }}" accept="image/*">{% if v %}<label class="chk" style="margin-top:8px"><input type="checkbox" name="rm_{{ f.n }}" value="1"> Remove current photo</label>{% endif %}<div class="hint">JPG or PNG. Large phone photos are resized automatically.</div></div></div>
+{% else %}<input name="{{ f.n }}" value="{{ v }}">{% endif %}{% endif %}</div>{% endfor %}
+<button class="btn">Save</button> {% if back %}<a class="btn g" href="{{ back }}">Cancel</a>{% endif %}</form>{% endblock %}

@@ -1,0 +1,92 @@
+{% from "_m.html" import ph with context %}<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ shop.name }} | Car Battery, Inverter, Alternator & A/C Service in Murbad</title>
+<meta name="description" content="{{ shop.meta_desc }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script type="application/ld+json">{{ {"@context":"https://schema.org","@type":"AutoRepair","name":shop.name,"telephone":["+"~shop.phone,"+"~shop.phone2],"address":{"@type":"PostalAddress","streetAddress":shop.address,"addressLocality":"Murbad","addressRegion":"Maharashtra","addressCountry":"IN"}}|tojson }}</script>
+</head><body>
+{% include "_head.html" %}
+<main id="top">
+<section class="hero"><div class="wrap herogrid">
+  <div>
+    <p class="tag ld" style="--d:0s">{{ shop.hero_tag }}</p>
+    <h1><span class="ln" style="--d:.1s">BATTERIES.</span><span class="ln" style="--d:.25s">AUTO ELECTRICAL.</span><span class="ln red" style="--d:.4s">CAR A/C.</span></h1>
+    <p class="lead ld" style="--d:.55s">{{ shop.hero_lead }}</p>
+    <div class="cta ld" style="--d:.7s"><a class="btn pulse" href="tel:+{{ shop.phone }}"><svg class="ic"><use href="#i-phone"/></svg>Call {{ shop.phone_display }}</a>
+    <a class="btn ghost" href="https://wa.me/{{ shop.phone }}?text=Hi%2C%20I%20need%20help%20with%20my%20vehicle" target="_blank" rel="noopener">WhatsApp</a></div>
+    <ul class="badges ld" style="--d:.85s"><li><svg><use href="#i-shield"/></svg>Brand warranty</li><li><svg><use href="#i-scan"/></svg>Computer scanning</li><li><svg><use href="#i-wrench"/></svg>Sales and repair</li></ul>
+  </div>
+  <div class="hero-demo ld" style="--d:.5s" aria-label="Battery health checker">
+    <svg class="bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z" fill="currentColor"/></svg>
+    <h3>BATTERY HEALTH CHECK</h3><p class="mini">Slide to match how your car starts.</p>
+    <div class="battery"><div class="level" id="level"></div><span id="pct">0%</span></div>
+    <input type="range" id="slider" min="5" max="100" value="22" aria-label="Battery strength">
+    <p id="verdict" aria-live="polite"></p>
+    <a class="btn sm" href="#book">Book a battery test</a>
+  </div>
+</div></section>
+
+<div class="ticker" id="brands" aria-label="Brands we serve"><div class="track">{% for _ in (1,2) %}{% for n in ["MARUTI SUZUKI","HYUNDAI","CHEVROLET","NISSAN","VOLKSWAGEN","SKODA","TOYOTA","FORD","TATA","MAHINDRA"] %}<span>{{ n }}</span>{% endfor %}{% for b in brands %}<span>{{ b.name|upper }}</span>{% endfor %}{% endfor %}</div></div>
+
+{% if services %}<section id="services" class="sec"><div class="wrap"><p class="eyebrow rv">What we do</p><h2 class="rv">OUR SERVICES</h2>
+<p class="sub rv">Everything for your vehicle's battery, electrics and cooling. Tap a service to book it.</p>
+<div class="grid" id="svc">{% for s in services %}<a href="#book" class="rv" data-s="{{ s.title }}"><span class="ico"><svg><use href="#i-{{ s.icon or 'bat' }}"/></svg></span><h3>{{ s.title }}</h3><p>{{ s.descr }}</p>
+{% if s['items'] %}<ul>{% for x in s['items'].splitlines() if x.strip() %}<li>{{ x }}</li>{% endfor %}</ul>{% endif %}<em>Book this service &rarr;</em></a>{% endfor %}</div></div></section>{% endif %}
+
+{% if brands %}<section id="batteries" class="sec bt"><div class="wrap"><p class="eyebrow rv">Batteries &amp; inverters</p><h2 class="rv">BRANDS WE DEAL IN</h2>
+<p class="sub rv">Batteries for two wheelers, cars, trucks and homes, from the brands you trust.</p>
+<div class="brands">{% for b in brands %}<a class="brand rv" href="/batteries?brand={{ b.id }}">{% if b.logo %}<img class="blogo" src="/uploads/{{ b.logo }}" alt="{{ b.name }}">{% elif shop.show_ph == '1' %}<span class="logoph">[Logo]</span>{% endif %}<h3>{{ b.name }}</h3><p>{{ ph(b.blurb, '[Short line about this brand]') }}</p><em>View {{ b.name }} batteries &rarr;</em></a>{% endfor %}</div>
+{% if cats %}<h3 class="rv" style="margin-top:44px">Batteries for every vehicle</h3>
+<div class="wheels">{% for c in cats %}<a class="wheel rv" href="/batteries?cat={{ c.id }}"><b>{{ c.short or c.label }}</b><span>{{ c.sub }}</span></a>{% endfor %}</div>{% endif %}
+<p style="margin-top:26px"><a class="btn" href="/batteries">Browse all batteries &rarr;</a></p></div></section>{% endif %}
+
+{% if warranties %}<section id="warranty" class="sec warr"><div class="wrap"><p class="eyebrow rv">Peace of mind</p><h2 class="rv">WARRANTY & ASSURANCE</h2>
+<p class="sub rv">Buy with confidence. Here is how we stand behind what we sell and repair.</p>
+<div class="wgrid">{% for w in warranties %}<div class="wcard rv"><span class="ico"><svg><use href="#i-{{ w.icon or 'shield' }}"/></svg></span><h3>{{ w.title }}</h3><p>{{ w.descr }}</p></div>{% endfor %}</div>
+<p class="wnote rv">{{ shop.warranty_note }}</p></div></section>{% endif %}
+
+{% if signs %}<section id="signs" class="sec"><div class="wrap"><p class="eyebrow rv">Car care tips</p><h2 class="rv">SIGNS YOUR CAR NEEDS HELP</h2>
+<p class="sub rv">Spot the problem early and save on bigger repairs. Tap a sign to book the right service.</p>
+<div class="sgrid2">{% for s in signs %}<a href="#book" class="sign rv" data-s="{{ s.service }}"><svg><use href="#i-{{ s.icon or 'scan' }}"/></svg><h3>{{ s.title }}</h3><p>{{ s.descr }}</p></a>{% endfor %}</div></div></section>{% endif %}
+
+{% if gallery %}<section id="gallery" class="sec warr"><div class="wrap"><p class="eyebrow rv">Our workshop</p><h2 class="rv">PHOTO GALLERY</h2>
+<div class="gal">{% for g in gallery %}<figure class="rv"><img src="/uploads/{{ g.photo }}" alt="{{ g.caption or shop.name }}" loading="lazy">{% if g.caption %}<figcaption>{{ g.caption }}</figcaption>{% endif %}</figure>{% endfor %}</div></div></section>{% endif %}
+
+<section class="sec steps"><div class="wrap"><p class="eyebrow rv">Simple process</p><h2 class="rv">HOW IT WORKS</h2><div class="sgrid">
+<div class="rv"><b>1</b><h3>Call or book</h3><p>Phone us, WhatsApp, or send the form below.</p></div>
+<div class="rv"><b>2</b><h3>We find the fault</h3><p>Testing and computer scanning before any parts are replaced.</p></div>
+<div class="rv"><b>3</b><h3>Fixed and running</h3><p>Repair or replacement, and you are back on the road.</p></div>
+</div></div></section>
+
+<section class="emerg"><div class="wrap"><h2>CAR WON'T START? CALL NOW.</h2><a class="btn light pulse" href="tel:+{{ shop.phone }}">{{ shop.phone_display }}</a></div></section>
+
+{% if stats %}<section id="why" class="sec dark"><div class="wrap"><p class="eyebrow rv">Why {{ shop.name.split(' ')[0] }}</p><h2 class="rv">ONE SHOP FOR YOUR VEHICLE'S ELECTRICS</h2>
+<div class="stats">{% for s in stats %}<div class="rv"><b data-n="{{ s.number }}">0</b><span>{{ s.label }}</span></div>{% endfor %}</div></div></section>{% endif %}
+
+{% if faqs %}<section id="faq" class="sec"><div class="wrap faqgrid"><div><p class="eyebrow rv">Good to know</p><h2 class="rv">FREQUENTLY ASKED QUESTIONS</h2><p class="sub rv">Still unsure? Call {{ shop.phone_display }} and we will help.</p></div>
+<div class="faq">{% for f in faqs %}<details class="rv"><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div></div></section>{% endif %}
+
+{% if reviews %}<section id="reviews" class="sec revs"><div class="wrap"><p class="eyebrow rv">Testimonials</p><h2 class="rv">WHAT CUSTOMERS SAY</h2>
+<div class="slider" id="rev">{% for v in reviews %}<blockquote class="{{ 'on' if loop.first }}">"{{ v.text }}"<cite>{{ v.author }}</cite></blockquote>{% endfor %}</div></div></section>{% endif %}
+
+<section id="book" class="sec dark"><div class="wrap bookgrid">
+<div><p class="eyebrow rv">Get in touch</p><h2 class="rv">BOOK A SERVICE</h2><p class="lead rv">Send your details and we will call you back. Or call {{ shop.phone_display }} directly.</p></div>
+<form id="bf" class="rv" novalidate>
+  <input name="name" placeholder="Your name" required autocomplete="name">
+  <input name="phone" type="tel" placeholder="Mobile number" required autocomplete="tel">
+  <input name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+  <select name="service" id="svcSel">{% for s in services %}<option>{{ s.title }}</option>{% endfor %}<option>Batteries / inverter enquiry</option><option>Other</option></select>
+  <input name="vehicle" placeholder="Vehicle (e.g. Maruti Swift 2018)">
+  <textarea name="message" rows="3" placeholder="Anything we should know?"></textarea>
+  <button class="btn light" type="submit">Send booking request</button>
+  <p id="fmsg" role="status"></p>
+</form></div></section>
+
+<section id="visit" class="sec"><div class="wrap"><p class="eyebrow rv">Find us</p><h2 class="rv">VISIT THE WORKSHOP</h2>
+<p class="sub rv">{{ shop.address }}<br>{{ shop.hours }}</p>
+<iframe class="rv" title="Map" src="{{ shop.maps_embed }}" loading="lazy" allowfullscreen></iframe></div></section>
+</main>
+{% include "_foot.html" %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body></html>

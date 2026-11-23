@@ -1,0 +1,43 @@
+{% from "_m.html" import ph with context %}<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Batteries & Inverters | {{ shop.name }}, Murbad</title>
+<meta name="description" content="Car, two wheeler, truck and home inverter batteries from {{ brands|map(attribute='name')|join(', ') }}. Batteries for 2 wheelers up to 20 wheelers in Murbad.">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head><body>
+{% include "_head.html" %}
+<main id="top">
+<section class="phero"><div class="wrap"><p class="crumb"><a href="/">Home</a> / Batteries</p>
+<h1><span class="ln" style="--d:.1s">BATTERIES</span><span class="ln red" style="--d:.25s">&amp; INVERTERS</span></h1>
+<p class="lead ld" style="--d:.4s">Find the right battery by brand, vehicle or type. Two wheelers to 20 wheelers, plus home inverters and UPS. Call {{ shop.phone_display }} for availability and price.</p></div></section>
+
+<section class="sec" style="padding-bottom:4vh"><div class="wrap"><p class="eyebrow rv">Brands</p><h2 class="rv">SHOP BY BRAND</h2>
+<div class="brands">{% for b in brands %}<a class="brand rv" href="#products" data-pick="brand:{{ b.id }}">{% if b.logo %}<img class="blogo" src="/uploads/{{ b.logo }}" alt="{{ b.name }}">{% elif shop.show_ph == '1' %}<span class="logoph">[Brand logo]</span>{% endif %}<h3>{{ b.name }}</h3><p>{{ ph(b.blurb, '[Short line about this brand]') }}</p><em>View products &darr;</em></a>{% endfor %}</div></div></section>
+
+{% if types %}<section class="sec warr" style="padding:7vh 0"><div class="wrap"><p class="eyebrow rv">Types</p><h2 class="rv">BATTERY TYPES</h2>
+<div class="tgrid">{% for t in types %}<div class="tcard rv"><span class="ico"><svg><use href="#i-{{ t.icon or 'bat' }}"/></svg></span><h3>{{ t.title }}</h3><p>{{ t.descr }}</p>
+{% for lab,val,txt in [('Capacity',t.capacity,'[Capacity range]'),('Suited for',t.suited,'[Suited for / vehicles]'),('Features',t.features,'[Key features]')] %}{% if val %}<div class="kv"><b>{{ lab }}:</b> {{ val }}</div>{% elif shop.show_ph == '1' %}<div class="ph">{{ txt }}</div>{% endif %}{% endfor %}</div>{% endfor %}</div></div></section>{% endif %}
+
+{% if cats %}<section class="sec"><div class="wrap"><p class="eyebrow rv">Vehicles</p><h2 class="rv">BATTERIES FOR EVERY VEHICLE</h2>
+<p class="sub rv">From 2 wheelers to 20 wheelers. Tap a category to see matching batteries.</p>
+<div class="vgrid">{% for c in cats %}<a href="#products" class="vcard rv" data-pick="cat:{{ c.id }}"><b>{{ c.label }}</b><span>{{ ph(c.descr, '[Example vehicles]') }}</span>{% if c.sizes %}<div class="kv">{{ c.sizes }}</div>{% elif shop.show_ph == '1' %}<div class="ph sm">[Typical battery sizes]</div>{% endif %}</a>{% endfor %}</div></div></section>{% endif %}
+
+<section id="products" class="sec warr"><div class="wrap"><p class="eyebrow rv">Catalogue</p><h2 class="rv">BATTERY CATALOGUE</h2>
+<div class="filters rv"><div><strong>Brand</strong><button class="chip on" data-f="brand" data-v="all">All</button>{% for b in brands %}<button class="chip" data-f="brand" data-v="{{ b.id }}">{{ b.name }}</button>{% endfor %}</div>
+<div><strong>Vehicle</strong><button class="chip on" data-f="cat" data-v="all">All</button>{% for c in cats %}<button class="chip" data-f="cat" data-v="{{ c.id }}">{{ c.label }}</button>{% endfor %}</div></div>
+<p id="count" class="sub" aria-live="polite"></p>
+<div class="pgrid" id="pgrid">{% for p in products %}<article class="pcard" data-brand="{{ p.brand }}" data-cats="{{ p.cats.replace(',', ' ') }}">
+<div class="pimg">{% if p.photo %}<img src="/uploads/{{ p.photo }}" alt="{{ names[p.brand] }} {{ p.name or p.type }}" loading="lazy">{% else %}<svg><use href="#i-bat"/></svg>{% if shop.show_ph == '1' %}<span>[Product photo]</span>{% endif %}{% endif %}</div>
+<p class="pbrand">{{ names[p.brand] }}</p><h3>{{ p.name if p.name else ('[Model name]' if shop.show_ph == '1' else p.type) }}</h3><p class="ptype">{{ p.type }}</p>
+{% if p.description %}<p class="pdesc">{{ p.description }}</p>{% endif %}
+<dl><div><dt>Capacity</dt><dd>{{ ph(p.capacity, '[__ Ah]', 'sm') }}</dd></div><div><dt>Warranty</dt><dd>{{ ph(p.warranty, '[__ months]', 'sm') }}</dd></div><div><dt>Price</dt><dd>{{ ph(p.price, '[Price or Call for price]', 'sm') or 'Call for price' }}</dd></div></dl>
+<a class="btn sm" target="_blank" rel="noopener" href="https://wa.me/{{ shop.phone }}?text={{ ('Hi, I want to enquire about ' ~ names[p.brand] ~ ' ' ~ (p.name or p.type) ~ ' battery')|urlencode }}">Enquire on WhatsApp</a></article>{% endfor %}</div>
+<p id="none" class="wnote" hidden>No battery listed for this combination yet. Call {{ shop.phone_display }} and we will help you.</p>
+<p class="wnote">{{ shop.warranty_note }}</p></div></section>
+
+<section class="emerg"><div class="wrap"><h2>NEED HELP CHOOSING A BATTERY?</h2><a class="btn light pulse" href="tel:+{{ shop.phone }}">Call {{ shop.phone_display }}</a></div></section>
+</main>
+{% include "_foot.html" %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='batteries.js') }}"></script>
+</body></html>
