@@ -3,3 +3,4 @@ gunicorn
 Pillow
 python-dotenv
 psycopg[binary]
+supabase
