@@ -27,19 +27,21 @@ app.config.update(
     PERMANENT_SESSION_LIFETIME=timedelta(hours=12)
 )
 
-# Secret key
-_kf = os.path.join(M.DATA, "secret.key")
+# Flask secret key
+# Vercel uses a read-only filesystem, so use an environment variable.
+app.secret_key = os.environ.get("SECRET_KEY")
 
-if os.environ.get("SECRET_KEY"):
-    app.secret_key = os.environ["SECRET_KEY"]
-else:
+if not app.secret_key:
+    if os.environ.get("VERCEL"):
+        raise RuntimeError("SECRET_KEY environment variable is missing on Vercel.")
+
+    _kf = os.path.join(M.DATA, "secret.key")
     if not os.path.exists(_kf):
         with open(_kf, "w") as f:
             f.write(secrets.token_hex(32))
 
     with open(_kf) as f:
         app.secret_key = f.read().strip()
-
 
 # ---------------- DATABASE BOOT ----------------
 
